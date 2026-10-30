@@ -20,6 +20,7 @@ On first start the app container runs `composer install` and MySQL loads `databa
 | :--- | :--- |
 | Public registration | http://localhost:8080 |
 | Attendee pass page | http://localhost:8080/pass/?token=... (linked from the confirmation email) |
+| Member portal (My AgriPass) | http://localhost:8080/portal/ |
 | Certificate verification | http://localhost:8080/verify/ (linked from the QR code on each certificate) |
 | Admin dashboard | http://localhost:8080/admin/ |
 | QR scanner / kiosk | http://localhost:8080/scanner/ (on this PC) or https://&lt;LAN-IP&gt;:8443/scanner/ (phones and tablets) |
@@ -39,7 +40,7 @@ password at first sign-in.
 
 Upgrading an existing database: schema files only run when the database is first created, so apply any newer
 `database/schema/*.sql` files by hand (`002_user_accounts.sql` for user management, `003_certificates.sql` for CPD
-certificates), for example
+certificates, `004_member_portal.sql` for the member portal), for example
 `docker compose exec -T db sh -c 'mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"' < database/schema/003_certificates.sql`.
 
 ## CPD certificates
@@ -56,6 +57,14 @@ After an event is marked **Completed**, admins issue certificates from the event
 Attendees can also download their certificate from their pass page. Each PDF carries a certificate number and a
 verification QR code. Scanning it, or entering the code at `/verify/`, shows whether the certificate is valid or revoked.
 The `--demo` seed includes a completed seminar with recorded attendance for trying this out.
+
+## Member portal
+
+Members sign in at `/portal/` without a password: they enter the email they registered with and receive a one-time
+link (valid 30 minutes; in development it lands in Mailpit). The portal lists their registrations with payment status,
+attendance, QR pass links and CPD certificate downloads (or why no certificate was issued). It shows the total CPD
+units earned and lets members update their name, contact number, PRC license, PAA ID and chapter. Email changes go
+through PAA staff. While signed in, the public registration form fills in their details automatically.
 
 ## Scanning on phones and tablets
 
@@ -115,3 +124,5 @@ Scanner endpoints use the `X-Event-ID` header for event context, falling back to
 | GET | `/api/certificates/{id}/pdf` · POST `/api/certificates/{id}/resend`, `/api/certificates/{id}/revoke` | admin |
 | GET | `/api/certificates/download?token=...` (attendee's own PDF) | public, signed token only |
 | GET | `/api/certificates/verify?code=...` | public |
+| POST | `/api/portal/login-link` (emails a sign-in link) · `/api/portal/session` (redeems it) | public, rate limited |
+| GET | `/api/portal/me`, `/api/portal/registrations` · PUT `/api/portal/profile` · POST `/api/portal/logout` | member |

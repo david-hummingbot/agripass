@@ -61,6 +61,8 @@ final class PassMailer
                 <p style="background:#fff8dc;border-left:4px solid #ffd230;padding:12px;margin:16px 0">{$e($payment)}</p>
                 <p><a href="{$url}" style="display:inline-block;background:#1c5739;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none">View my pass online</a></p>
                 <p style="font-size:12px;color:#777">Keep this email. Anyone with this QR code can check in as you, so please don't share it.</p>
+                <p style="font-size:12px;color:#777">See all your registrations and CPD certificates at
+                  <a href="{$e(PortalMailer::portalUrl())}" style="color:#1c5739">My AgriPass</a>.</p>
               </div>
             </div>
             HTML;

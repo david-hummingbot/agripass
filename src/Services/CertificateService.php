@@ -36,24 +36,34 @@ final class CertificateService
 
         return array_map(static function (array $row) use ($total, $minPct): array {
             $attended = (int) $row['sessions_attended'];
-            $pct = $total > 0 ? round($attended / $total * 100, 1) : 0.0;
-            $reason = match (true) {
-                $total === 0 => 'The event has no sessions.',
-                !in_array($row['payment_status'], self::CLEARED_PAYMENT, true) => "Payment is {$row['payment_status']}.",
-                $pct < $minPct => "Attended {$attended} of {$total} sessions; {$minPct}% required.",
-                default => null,
-            };
+            $reason = self::ineligibleReason($row['payment_status'], $attended, $total, $minPct);
 
             return [
                 ...$row,
                 'registration_id' => (int) $row['registration_id'],
                 'sessions_attended' => $attended,
                 'sessions_total' => $total,
-                'attendance_pct' => $pct,
+                'attendance_pct' => self::attendancePct($attended, $total),
                 'eligible' => $reason === null,
                 'reason' => $reason,
             ];
         }, $rows);
+    }
+
+    /** Null when the attendee qualifies for a certificate. */
+    public static function ineligibleReason(string $paymentStatus, int $attended, int $total, int $minPct): ?string
+    {
+        return match (true) {
+            $total === 0 => 'The event has no sessions.',
+            !in_array($paymentStatus, self::CLEARED_PAYMENT, true) => "Payment is {$paymentStatus}.",
+            self::attendancePct($attended, $total) < $minPct => "Attended {$attended} of {$total} sessions; {$minPct}% required.",
+            default => null,
+        };
+    }
+
+    private static function attendancePct(int $attended, int $total): float
+    {
+        return $total > 0 ? round($attended / $total * 100, 1) : 0.0;
     }
 
     /** Creates the certificate for an eligible row, or returns the existing one. */

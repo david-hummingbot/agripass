@@ -9,6 +9,7 @@ use AgriPass\Controllers\CustomFieldController;
 use AgriPass\Controllers\EventController;
 use AgriPass\Controllers\MemberController;
 use AgriPass\Controllers\PassController;
+use AgriPass\Controllers\PortalController;
 use AgriPass\Controllers\RegistrationController;
 use AgriPass\Controllers\SessionController;
 use AgriPass\Controllers\UserController;
@@ -65,6 +66,13 @@ return static function (Router $r): void {
     $r->post('/api/certificates/{id}/revoke', [CertificateController::class, 'revoke']);
     $r->get('/api/certificates/download', [CertificateController::class, 'download']);
     $r->get('/api/certificates/verify', [CertificateController::class, 'verify']);
+
+    $r->post('/api/portal/login-link', [PortalController::class, 'requestLink']);
+    $r->post('/api/portal/session', [PortalController::class, 'signIn']);
+    $r->post('/api/portal/logout', [PortalController::class, 'logout']);
+    $r->get('/api/portal/me', [PortalController::class, 'me']);
+    $r->put('/api/portal/profile', [PortalController::class, 'updateProfile']);
+    $r->get('/api/portal/registrations', [PortalController::class, 'registrations']);
 
     $r->post('/api/checkin', [CheckInController::class, 'scan']);
     $r->get('/api/events/{id}/roster', [CheckInController::class, 'roster']);

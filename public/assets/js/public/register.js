@@ -2,16 +2,8 @@ import { api } from '../lib/api.js';
 import {
     clearFormErrors, esc, formatDate, formatDateRange, formatPeso, formatTime, showFormErrors, toast, toastError, withBusy,
 } from '../lib/ui.js';
+import { CHAPTERS } from '../lib/chapters.js';
 import { passActions, passCard } from './pass-card.js';
-
-const CHAPTERS = [
-    'NCR - National Capital Region', 'CAR - Cordillera Administrative Region', 'Region I - Ilocos Region',
-    'Region II - Cagayan Valley', 'Region III - Central Luzon', 'Region IV-A - CALABARZON', 'MIMAROPA Region',
-    'Region V - Bicol Region', 'Region VI - Western Visayas', 'NIR - Negros Island Region', 'Region VII - Central Visayas',
-    'Region VIII - Eastern Visayas', 'Region IX - Zamboanga Peninsula', 'Region X - Northern Mindanao',
-    'Region XI - Davao Region', 'Region XII - SOCCSKSARGEN', 'Region XIII - Caraga', 'BARMM - Bangsamoro',
-    'International / Overseas',
-];
 
 const PROFILE_FIELDS = ['first_name', 'last_name', 'email', 'contact_number', 'prc_license_number', 'paa_id_number', 'chapter_region'];
 
@@ -182,6 +174,28 @@ function renderForm(event) {
     bindLookup();
     bindResend(event);
     bindRegister(event);
+    prefillSignedInMember();
+}
+
+async function prefillSignedInMember() {
+    let member;
+    try {
+        ({ member } = await api('/portal/me'));
+    } catch {
+        return;
+    }
+    const reg = document.getElementById('register-form');
+    for (const field of PROFILE_FIELDS) {
+        if (member[field] && reg[field]) reg[field].value = member[field];
+    }
+    document.querySelector('.returning-box').innerHTML = `
+        <div class="d-flex align-items-center gap-2"><i class="bi bi-person-check-fill fs-5 text-success"></i>
+            <div class="small">Signed in to My AgriPass as <strong>${esc(member.first_name)} ${esc(member.last_name)}</strong>.
+                Your details are filled in below. <button class="btn btn-link btn-sm p-0 align-baseline" type="button" id="not-me">Not you? Sign out</button></div></div>`;
+    document.getElementById('not-me').addEventListener('click', async () => {
+        await api('/portal/logout', { method: 'POST' }).catch(() => {});
+        location.reload();
+    });
 }
 
 function bindLookup() {

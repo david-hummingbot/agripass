@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Verify a CPD certificate · AgriPass</title>
+    <link rel="icon" type="image/png" href="/assets/img/paa-logo.png">
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
+    <link rel="stylesheet" href="/assets/css/public.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="container py-3 d-flex align-items-center gap-3" style="max-width: 960px">
+        <a href="/"><img src="/assets/img/paa-logo-yellow.png" alt="Philippine Association of Agriculturists"></a>
+        <div>
+            <div class="brand-name">AgriPass</div>
+            <div class="brand-sub">Philippine Association of Agriculturists, Inc.</div>
+        </div>
+    </div>
+</header>
+
+<main class="container py-4 py-md-5" style="max-width: 560px">
+    <h1 class="h4 page-title text-center mb-1">Verify a CPD certificate</h1>
+    <p class="text-center text-muted small mb-4">Enter the 16-character code printed beside the QR code on the certificate.</p>
+    <form id="verify-form" class="d-flex gap-2 mb-4" novalidate>
+        <input class="form-control text-uppercase font-monospace" id="code" name="code" maxlength="16" autocomplete="off"
+               placeholder="e.g. 35F60685226E346B" aria-label="Verification code" required>
+        <button class="btn btn-primary px-4" type="submit">Verify</button>
+    </form>
+    <div id="result" aria-live="polite"></div>
+</main>
+
+<footer class="site-footer container text-center pb-4">
+    &copy; Philippine Association of Agriculturists, Inc.
+</footer>
+
+<script type="module" src="/assets/js/public/verify.js"></script>
+</body>
+</html>

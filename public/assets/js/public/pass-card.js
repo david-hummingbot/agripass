@@ -4,11 +4,12 @@ const qrUrl = (token, extra = '') => `/api/passes/qr?token=${encodeURIComponent(
 export const passPageUrl = (token) => `/pass/?token=${encodeURIComponent(token)}`;
 
 function paymentNotice(pass, amountDue) {
+    const seeYou = ['Completed', 'Archived'].includes(pass.event_status) ? '' : ' See you at the event!';
     switch (pass.payment_status) {
         case 'Paid':
-            return '<div class="alert alert-success small mb-0"><i class="bi bi-check-circle-fill me-1"></i>Payment confirmed. See you at the event!</div>';
+            return `<div class="alert alert-success small mb-0"><i class="bi bi-check-circle-fill me-1"></i>Payment confirmed.${seeYou}</div>`;
         case 'Waived':
-            return '<div class="alert alert-success small mb-0"><i class="bi bi-check-circle-fill me-1"></i>No payment required. See you at the event!</div>';
+            return `<div class="alert alert-success small mb-0"><i class="bi bi-check-circle-fill me-1"></i>No payment required.${seeYou}</div>`;
         case 'Refunded':
             return '<div class="alert alert-danger small mb-0"><i class="bi bi-x-circle-fill me-1"></i>This registration was refunded and the pass is no longer valid.</div>';
         default:

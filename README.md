@@ -20,6 +20,7 @@ On first start the app container runs `composer install` and MySQL loads `databa
 | :--- | :--- |
 | Public registration | http://localhost:8080 |
 | Attendee pass page | http://localhost:8080/pass/?token=... (linked from the confirmation email) |
+| Certificate verification | http://localhost:8080/verify/ (linked from the QR code on each certificate) |
 | Admin dashboard | http://localhost:8080/admin/ |
 | QR scanner / kiosk | http://localhost:8080/scanner/ (on this PC) or https://&lt;LAN-IP&gt;:8443/scanner/ (phones and tablets) |
 | Mailpit (captured emails) | http://localhost:8025 |
@@ -36,8 +37,25 @@ password at first sign-in.
 | Regional Officer | Events, sessions, registration forms, payments |
 | Gate Staff | QR scanner and read-only dashboard |
 
-Upgrading a database created before user management was added: run
-`docker compose exec -T db sh -c 'mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"' < database/schema/002_user_accounts.sql`.
+Upgrading an existing database: schema files only run when the database is first created, so apply any newer
+`database/schema/*.sql` files by hand (`002_user_accounts.sql` for user management, `003_certificates.sql` for CPD
+certificates), for example
+`docker compose exec -T db sh -c 'mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE"' < database/schema/003_certificates.sql`.
+
+## CPD certificates
+
+After an event is marked **Completed**, admins issue certificates from the event's **Certificates** tab:
+
+1. Set the signatory's name and position when editing the event, and optionally upload a signature image (PNG or JPEG)
+   on the Certificates tab. Use **Preview sample certificate** to check the layout.
+2. An attendee qualifies when their payment is Paid or Waived and they attended at least the event's minimum
+   percentage of sessions.
+3. **Issue & email** generates an A4 PDF for every qualifying attendee and emails it to them. Issued certificates can be
+   emailed again or revoked (with a reason), but not edited.
+
+Attendees can also download their certificate from their pass page. Each PDF carries a certificate number and a
+verification QR code. Scanning it, or entering the code at `/verify/`, shows whether the certificate is valid or revoked.
+The `--demo` seed includes a completed seminar with recorded attendance for trying this out.
 
 ## Scanning on phones and tablets
 
@@ -92,3 +110,8 @@ Scanner endpoints use the `X-Event-ID` header for event context, falling back to
 | POST | `/api/checkin` (optional `client_uuid` makes retries idempotent) | staff |
 | GET | `/api/events/{id}/roster` (offline cache) | staff |
 | POST | `/api/sync-attendance` (alias `/api/sync-attendance.php`) | staff |
+| GET | `/api/events/{id}/certificates` (eligibility and issued certificates) · `/api/events/{id}/certificates/preview` (sample PDF) | admin |
+| POST | `/api/events/{id}/certificates/issue` (batches of 20; repeat until `remaining` is 0) · `/api/events/{id}/signature` (multipart) | admin |
+| GET | `/api/certificates/{id}/pdf` · POST `/api/certificates/{id}/resend`, `/api/certificates/{id}/revoke` | admin |
+| GET | `/api/certificates/download?token=...` (attendee's own PDF) | public, signed token only |
+| GET | `/api/certificates/verify?code=...` | public |

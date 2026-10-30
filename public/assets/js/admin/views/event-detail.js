@@ -1,6 +1,7 @@
 import { api } from '../../lib/api.js';
 import { activateEvent } from '../app.js';
 import { isAdmin, loadEvents } from '../state.js';
+import { renderCertificates } from './certificates.js';
 import {
     confirmDialog, emptyState, esc, formData, formatDate, formatDateRange, formatDateTime,
     formatPeso, formatTime, openModal, paymentBadge, statusBadge, toast, toastError,
@@ -11,6 +12,7 @@ const TABS = [
     ['sessions', 'Sessions', 'clock'],
     ['fields', 'Registration form', 'ui-checks'],
     ['registrations', 'Registrations', 'people'],
+    ['certificates', 'Certificates', 'award', 'admin'],
 ];
 
 const NEXT_STATUS = {
@@ -23,7 +25,8 @@ const FIELD_TYPES = { text: 'Text', number: 'Number', select: 'Dropdown', checkb
 const PAYMENT_STATUSES = ['Pending', 'Paid', 'Waived', 'Refunded'];
 
 export async function renderEventDetail(eventId, tab = 'overview') {
-    if (!TABS.some(([key]) => key === tab)) tab = 'overview';
+    const tabs = TABS.filter(([, , , access]) => access !== 'admin' || isAdmin());
+    if (!tabs.some(([key]) => key === tab)) tab = 'overview';
     const { event } = await api(`/events/${eventId}`);
     const view = document.getElementById('view');
     const editable = isAdmin() && event.status !== 'Archived';
@@ -52,7 +55,7 @@ export async function renderEventDetail(eventId, tab = 'overview') {
         </div>
         ${event.status === 'Archived' ? '<div class="alert alert-secondary small"><i class="bi bi-lock me-1"></i>This event is archived and locked for audit. Data can be viewed but not changed.</div>' : ''}
         <ul class="nav nav-tabs mb-4">
-            ${TABS.map(([key, label, icon]) => `<li class="nav-item"><a class="nav-link ${key === tab ? 'active' : ''}" href="#/events/${event.event_id}/${key}">
+            ${tabs.map(([key, label, icon]) => `<li class="nav-item"><a class="nav-link ${key === tab ? 'active' : ''}" href="#/events/${event.event_id}/${key}">
                 <i class="bi bi-${icon} me-1"></i>${label}${tabCount(event, key)}</a></li>`).join('')}
         </ul>
         <div id="tab-content"></div>`;
@@ -82,6 +85,8 @@ export async function renderEventDetail(eventId, tab = 'overview') {
     if (tab === 'sessions') renderSessions(content, event, editable, reload);
     if (tab === 'fields') renderFields(content, event, editable, reload);
     if (tab === 'registrations') await renderRegistrations(content, event);
+    if (tab === 'certificates') await renderCertificates(content, event, reload);
+    view.querySelector('.nav-tabs .active')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
 }
 
 function tabCount(event, key) {
@@ -107,6 +112,7 @@ function renderOverview(el, event) {
                             ${row('CPD units', esc(Number(event.cpd_units)))}
                             ${row('Certificate requirement', `${esc(event.cpd_min_attendance_pct)}% of sessions attended`)}
                             ${row('PRC accreditation no.', esc(event.prc_accreditation_no))}
+                            ${row('Certificate signatory', event.cert_signatory_name ? `${esc(event.cert_signatory_name)}<div class="small text-muted">${esc(event.cert_signatory_title)}</div>` : '')}
                             ${row('Created', formatDateTime(event.created_at))}
                         </dl>
                         ${event.description ? `<hr><p class="mb-0" style="white-space:pre-line">${esc(event.description)}</p>` : ''}

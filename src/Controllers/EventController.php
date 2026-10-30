@@ -34,6 +34,8 @@ final class EventController
         'cpd_units' => 'optional',
         'cpd_min_attendance_pct' => 'optional',
         'prc_accreditation_no' => 'optional',
+        'cert_signatory_name' => 'optional',
+        'cert_signatory_title' => 'optional',
     ];
 
     public static function index(Request $request): void
@@ -62,7 +64,7 @@ final class EventController
         if ($event === null) {
             throw new HttpException(404, 'No event is currently open.');
         }
-        unset($event['created_by']);
+        unset($event['created_by'], $event['cert_signature_path']);
         Response::json(['event' => self::withDetails($event)]);
     }
 
@@ -72,8 +74,8 @@ final class EventController
         $data = self::validated($request);
         $id = Database::insert(
             'INSERT INTO events (title, event_type, description, venue, start_date, end_date, registration_fee,
-                                 cpd_units, cpd_min_attendance_pct, prc_accreditation_no, created_by)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                                 cpd_units, cpd_min_attendance_pct, prc_accreditation_no, cert_signatory_name, cert_signatory_title, created_by)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [...self::columns($data), $user['user_id']],
         );
         AuditLog::record($user['user_id'], 'event.create', 'event', $id);
@@ -88,7 +90,8 @@ final class EventController
         $data = self::validated($request);
         Database::run(
             'UPDATE events SET title = ?, event_type = ?, description = ?, venue = ?, start_date = ?, end_date = ?,
-                               registration_fee = ?, cpd_units = ?, cpd_min_attendance_pct = ?, prc_accreditation_no = ?
+                               registration_fee = ?, cpd_units = ?, cpd_min_attendance_pct = ?, prc_accreditation_no = ?,
+                               cert_signatory_name = ?, cert_signatory_title = ?
              WHERE event_id = ?',
             [...self::columns($data), $event['event_id']],
         );
@@ -206,6 +209,11 @@ final class EventController
                 $errors[$field] = 'Must be a non-negative number.';
             }
         }
+        foreach (['cert_signatory_name' => 100, 'cert_signatory_title' => 150] as $field => $max) {
+            if ($data[$field] !== null && mb_strlen((string) $data[$field]) > $max) {
+                $errors[$field] = "Use {$max} characters or fewer.";
+            }
+        }
         $pct = $data['cpd_min_attendance_pct'];
         if ($pct !== null && (!is_numeric($pct) || $pct < 0 || $pct > 100)) {
             $errors['cpd_min_attendance_pct'] = 'Must be between 0 and 100.';
@@ -230,6 +238,8 @@ final class EventController
             $data['cpd_units'] ?? 0,
             $data['cpd_min_attendance_pct'] ?? 80,
             $data['prc_accreditation_no'],
+            $data['cert_signatory_name'],
+            $data['cert_signatory_title'],
         ];
     }
 }

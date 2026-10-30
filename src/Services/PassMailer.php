@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace AgriPass\Services;
 
-use AgriPass\Core\Config;
 use PHPMailer\PHPMailer\PHPMailer;
 
 final class PassMailer
@@ -16,18 +15,7 @@ final class PassMailer
     public static function send(array $event, array $member, string $token, string $paymentStatus): bool
     {
         try {
-            $mail = new PHPMailer(true);
-            $mail->isSMTP();
-            $mail->Host = Config::get('MAIL_HOST', 'mailpit');
-            $mail->Port = (int) Config::get('MAIL_PORT', '1025');
-            $mail->SMTPAuth = Config::get('MAIL_USERNAME') !== null;
-            $mail->Username = Config::get('MAIL_USERNAME', '');
-            $mail->Password = Config::get('MAIL_PASSWORD', '');
-            $mail->SMTPAutoTLS = Config::get('MAIL_ENCRYPTION') !== null;
-            $mail->SMTPSecure = Config::get('MAIL_ENCRYPTION', '');
-            $mail->CharSet = PHPMailer::CHARSET_UTF8;
-
-            $mail->setFrom(Config::get('MAIL_FROM', 'noreply@agripass.local'), Config::get('MAIL_FROM_NAME', 'PAA AgriPass'));
+            $mail = Mailer::create();
             $mail->addAddress($member['email'], "{$member['first_name']} {$member['last_name']}");
             $mail->Subject = "Your AgriPass for {$event['title']}";
             $mail->addStringEmbeddedImage(QrImage::png($token, 8), 'qr-pass', 'agripass-qr.png', PHPMailer::ENCODING_BASE64, 'image/png');
@@ -46,13 +34,13 @@ final class PassMailer
 
     public static function passUrl(string $token): string
     {
-        return rtrim(Config::get('APP_URL', 'http://localhost:8080'), '/') . '/pass/?token=' . rawurlencode($token);
+        return Mailer::appUrl('/pass/?token=' . rawurlencode($token));
     }
 
     private static function html(array $event, array $member, string $token, string $paymentStatus): string
     {
         $e = static fn (?string $v) => htmlspecialchars((string) $v, ENT_QUOTES, 'UTF-8');
-        $dates = self::dates($event);
+        $dates = Mailer::eventDates($event);
         $url = $e(self::passUrl($token));
         $payment = self::paymentNote($event, $paymentStatus);
 
@@ -80,7 +68,7 @@ final class PassMailer
 
     private static function text(array $event, array $member, string $token, string $paymentStatus): string
     {
-        return "Hi {$member['first_name']},\n\nYou're registered for {$event['title']}.\n{$event['venue']}\n" . self::dates($event)
+        return "Hi {$member['first_name']},\n\nYou're registered for {$event['title']}.\n{$event['venue']}\n" . Mailer::eventDates($event)
             . "\n\n" . self::paymentNote($event, $paymentStatus)
             . "\n\nView your QR pass: " . self::passUrl($token) . "\n";
     }
@@ -93,13 +81,5 @@ final class PassMailer
             default => 'Payment of PHP ' . number_format((float) $event['registration_fee'], 2)
                 . ' is pending. Your pass will be accepted at the entrance once your payment is verified.',
         };
-    }
-
-    private static function dates(array $event): string
-    {
-        $start = new \DateTimeImmutable($event['start_date']);
-        $end = new \DateTimeImmutable($event['end_date']);
-
-        return $start == $end ? $start->format('F j, Y') : $start->format('F j') . ' - ' . $end->format('F j, Y');
     }
 }

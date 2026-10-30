@@ -65,8 +65,16 @@ body {
     border-color: var(--paa-green);
 }
 
+.nav-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+}
+
 .nav-tabs .nav-link {
     color: var(--bs-secondary-color);
+    white-space: nowrap;
 }
 
 .nav-tabs .nav-link.active {

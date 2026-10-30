@@ -6,6 +6,7 @@
         "php": ">=8.3",
         "ext-pdo": "*",
         "chillerlan/php-qrcode": "^5.0",
+        "dompdf/dompdf": "^3.1",
         "phpmailer/phpmailer": "^6.9"
     },
     "autoload": {

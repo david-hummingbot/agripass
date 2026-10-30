@@ -38,6 +38,11 @@ final class PassController
              WHERE s.event_id = ? ORDER BY s.session_date, s.start_time',
             [$pass['registration_id'], $pass['event_id']],
         );
+        $certificate = Database::one(
+            'SELECT certificate_no, verification_code, issued_at FROM certificates WHERE registration_id = ? AND revoked_at IS NULL',
+            [$pass['registration_id']],
+        );
+        $pass['certificate'] = $certificate;
         unset($pass['registration_id']);
 
         Response::json(['pass' => $pass]);

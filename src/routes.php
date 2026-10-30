@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use AgriPass\Controllers\AuthController;
+use AgriPass\Controllers\CertificateController;
 use AgriPass\Controllers\CheckInController;
 use AgriPass\Controllers\CustomFieldController;
 use AgriPass\Controllers\EventController;
@@ -54,6 +55,16 @@ return static function (Router $r): void {
 
     $r->get('/api/passes', [PassController::class, 'show']);
     $r->get('/api/passes/qr', [PassController::class, 'qr']);
+
+    $r->get('/api/events/{id}/certificates', [CertificateController::class, 'index']);
+    $r->post('/api/events/{id}/certificates/issue', [CertificateController::class, 'issue']);
+    $r->get('/api/events/{id}/certificates/preview', [CertificateController::class, 'preview']);
+    $r->post('/api/events/{id}/signature', [CertificateController::class, 'uploadSignature']);
+    $r->get('/api/certificates/{id}/pdf', [CertificateController::class, 'show']);
+    $r->post('/api/certificates/{id}/resend', [CertificateController::class, 'resend']);
+    $r->post('/api/certificates/{id}/revoke', [CertificateController::class, 'revoke']);
+    $r->get('/api/certificates/download', [CertificateController::class, 'download']);
+    $r->get('/api/certificates/verify', [CertificateController::class, 'verify']);
 
     $r->post('/api/checkin', [CheckInController::class, 'scan']);
     $r->get('/api/events/{id}/roster', [CheckInController::class, 'roster']);

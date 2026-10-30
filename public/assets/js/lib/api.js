@@ -11,15 +11,16 @@ export class ApiError extends Error {
  * (TypeError, TimeoutError) means the server could not be reached.
  */
 export async function api(path, { method = 'GET', body, headers = {}, timeout } = {}) {
+    const json = body !== undefined && !(body instanceof FormData);
     const res = await fetch(`/api${path}`, {
         method,
         credentials: 'same-origin',
         headers: {
             Accept: 'application/json',
-            ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+            ...(json ? { 'Content-Type': 'application/json' } : {}),
             ...headers,
         },
-        body: body !== undefined ? JSON.stringify(body) : undefined,
+        body: json ? JSON.stringify(body) : body,
         signal: timeout ? AbortSignal.timeout(timeout) : undefined,
     });
 

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1c5739">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="AgriPass Scanner">
+    <title>AgriPass Scanner &middot; PAA</title>
+    <link rel="manifest" href="/scanner/manifest.webmanifest">
+    <link rel="icon" type="image/png" href="/assets/img/paa-logo.png">
+    <link rel="apple-touch-icon" href="/assets/img/icons/scanner-192.png">
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
+    <link rel="stylesheet" href="/assets/css/scanner.css">
+</head>
+<body>
+<div id="root"><div class="scanner-loading"><div class="spinner-border text-light" role="status"><span class="visually-hidden">Loading</span></div></div></div>
+
+<div class="modal fade" id="app-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" id="toasts"></div>
+
+<script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/html5-qrcode/html5-qrcode.min.js"></script>
+<script type="module" src="/assets/js/scanner/app.js"></script>
+</body>
+</html>

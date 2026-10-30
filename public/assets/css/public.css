@@ -1,0 +1,208 @@
+.site-header {
+    background: linear-gradient(135deg, var(--paa-green) 0%, var(--paa-green-dark) 100%);
+    border-bottom: 4px solid var(--paa-yellow);
+    color: #fff;
+}
+
+.site-header img {
+    height: 48px;
+    width: auto;
+}
+
+.site-header .brand-name {
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--paa-yellow);
+    line-height: 1.1;
+}
+
+.site-header .brand-sub {
+    font-size: .75rem;
+    color: rgba(255, 255, 255, .75);
+}
+
+.event-hero {
+    background:
+        radial-gradient(circle at 90% 10%, rgba(255, 210, 48, .25), transparent 45%),
+        linear-gradient(135deg, var(--paa-green-mid) 0%, var(--paa-green) 100%);
+    color: #fff;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.event-hero .event-title {
+    font-weight: 800;
+    letter-spacing: -.01em;
+}
+
+.event-hero .meta {
+    color: rgba(255, 255, 255, .85);
+}
+
+.event-hero .fact {
+    background: rgba(255, 255, 255, .12);
+    border-radius: .75rem;
+    padding: .75rem 1rem;
+    height: 100%;
+}
+
+.event-hero .fact-label {
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: rgba(255, 255, 255, .7);
+}
+
+.event-hero .fact-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--paa-yellow);
+}
+
+.section-title {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--paa-green);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(28, 87, 57, .15);
+}
+
+.returning-box {
+    background: #fffbea;
+    border: 1px dashed var(--paa-yellow-dark);
+    border-radius: .75rem;
+}
+
+.schedule-item {
+    border-left: 3px solid var(--paa-yellow);
+    padding-left: .75rem;
+}
+
+/* Pass card */
+
+.pass-card {
+    max-width: 420px;
+    margin: 0 auto;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(18, 59, 38, .18);
+}
+
+.pass-card .pass-head {
+    background: linear-gradient(135deg, var(--paa-green) 0%, var(--paa-green-dark) 100%);
+    color: #fff;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 4px solid var(--paa-yellow);
+}
+
+.pass-card .pass-head img {
+    height: 40px;
+}
+
+.pass-card .pass-event {
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.3;
+}
+
+.pass-card .pass-qr {
+    padding: 1.25rem 1.5rem .5rem;
+    text-align: center;
+}
+
+.pass-card .pass-qr img {
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 1;
+}
+
+.pass-card .pass-qr.blocked img {
+    opacity: .35;
+}
+
+.pass-card .pass-divider {
+    border-top: 2px dashed #dfe7d8;
+    margin: .75rem 1.5rem;
+    position: relative;
+}
+
+.pass-card .pass-divider::before,
+.pass-card .pass-divider::after {
+    content: "";
+    position: absolute;
+    top: -12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--paa-light);
+}
+
+.pass-card .pass-divider::before { left: -36px; }
+.pass-card .pass-divider::after { right: -36px; }
+
+.pass-card .pass-body {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.pass-card .pass-name {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--paa-green-dark);
+}
+
+.pass-card .label {
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--bs-secondary-color);
+}
+
+.session-row {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .5rem 0;
+    border-bottom: 1px solid #eef2ea;
+}
+
+.session-row:last-child {
+    border-bottom: 0;
+}
+
+.session-row .bi-check-circle-fill {
+    color: #2fb36d;
+}
+
+.site-footer {
+    color: var(--bs-secondary-color);
+    font-size: .8rem;
+}
+
+@media print {
+    body {
+        background: #fff;
+    }
+
+    .site-header,
+    .site-footer,
+    .no-print {
+        display: none !important;
+    }
+
+    .pass-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}

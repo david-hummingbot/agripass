@@ -1,0 +1,117 @@
+/* PAA brand theme shared by the public portal and the admin dashboard. */
+
+:root {
+    --paa-green: #1c5739;
+    --paa-green-dark: #123b26;
+    --paa-green-mid: #24704a;
+    --paa-yellow: #ffd230;
+    --paa-yellow-dark: #e6b800;
+    --paa-light: #f0f6ea;
+
+    --bs-primary: var(--paa-green);
+    --bs-primary-rgb: 28, 87, 57;
+    --bs-link-color: var(--paa-green);
+    --bs-link-color-rgb: 28, 87, 57;
+    --bs-link-hover-color: var(--paa-green-dark);
+    --bs-link-hover-color-rgb: 18, 59, 38;
+    --bs-font-sans-serif: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+    background-color: var(--paa-light);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--paa-green);
+    --bs-btn-border-color: var(--paa-green);
+    --bs-btn-hover-bg: var(--paa-green-dark);
+    --bs-btn-hover-border-color: var(--paa-green-dark);
+    --bs-btn-active-bg: var(--paa-green-dark);
+    --bs-btn-active-border-color: var(--paa-green-dark);
+    --bs-btn-disabled-bg: var(--paa-green);
+    --bs-btn-disabled-border-color: var(--paa-green);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--paa-green);
+    --bs-btn-border-color: var(--paa-green);
+    --bs-btn-hover-bg: var(--paa-green);
+    --bs-btn-hover-border-color: var(--paa-green);
+    --bs-btn-active-bg: var(--paa-green-dark);
+    --bs-btn-active-border-color: var(--paa-green-dark);
+}
+
+.btn-accent {
+    --bs-btn-color: var(--paa-green-dark);
+    --bs-btn-bg: var(--paa-yellow);
+    --bs-btn-border-color: var(--paa-yellow);
+    --bs-btn-hover-color: var(--paa-green-dark);
+    --bs-btn-hover-bg: var(--paa-yellow-dark);
+    --bs-btn-hover-border-color: var(--paa-yellow-dark);
+    --bs-btn-active-bg: var(--paa-yellow-dark);
+    --bs-btn-active-border-color: var(--paa-yellow-dark);
+    font-weight: 600;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: var(--paa-green-mid);
+    box-shadow: 0 0 0 .25rem rgba(28, 87, 57, .2);
+}
+
+.form-check-input:checked {
+    background-color: var(--paa-green);
+    border-color: var(--paa-green);
+}
+
+.nav-tabs .nav-link {
+    color: var(--bs-secondary-color);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--paa-green);
+    font-weight: 600;
+    border-bottom: 3px solid var(--paa-yellow);
+}
+
+.card {
+    border: 0;
+    box-shadow: 0 1px 3px rgba(18, 59, 38, .08), 0 1px 2px rgba(18, 59, 38, .06);
+}
+
+.badge-status {
+    font-weight: 600;
+    padding: .4em .7em;
+}
+
+/* Staff sign-in screens (admin dashboard and scanner) */
+
+.login-screen {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255, 210, 48, .18), transparent 40%),
+        linear-gradient(135deg, var(--paa-green) 0%, var(--paa-green-dark) 100%);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    border-top: 5px solid var(--paa-yellow);
+}
+
+.login-card .logo {
+    width: 150px;
+}
+
+.status-Draft { background: #e9ecef; color: #495057; }
+.status-Active { background: #d6f2e1; color: #146c3b; }
+.status-Completed { background: #dbe8ff; color: #1c4fa0; }
+.status-Archived { background: #ece3d4; color: #6b5532; }
+.pay-Pending { background: #fff3cd; color: #8a6100; }
+.pay-Paid { background: #d6f2e1; color: #146c3b; }
+.pay-Waived { background: #e2e8f0; color: #334155; }
+.pay-Refunded { background: #f8d7da; color: #842029; }

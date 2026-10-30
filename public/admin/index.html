@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AgriPass Admin &middot; PAA</title>
+    <link rel="icon" type="image/png" href="/assets/img/paa-logo.png">
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/assets/css/theme.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body>
+<div id="app-loading"><div class="spinner-border text-success" role="status"><span class="visually-hidden">Loading</span></div></div>
+<div id="root"></div>
+
+<div class="modal fade" id="app-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toasts"></div>
+
+<script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+<script type="module" src="/assets/js/admin/app.js"></script>
+</body>
+</html>

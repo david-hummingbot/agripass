@@ -1,0 +1,15 @@
+{
+    "name": "AgriPass Scanner",
+    "short_name": "AgriPass",
+    "description": "PAA event QR check-in scanner with offline support",
+    "start_url": "/scanner/",
+    "scope": "/scanner/",
+    "display": "standalone",
+    "orientation": "any",
+    "background_color": "#123b26",
+    "theme_color": "#1c5739",
+    "icons": [
+        { "src": "/assets/img/icons/scanner-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+        { "src": "/assets/img/icons/scanner-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    ]
+}

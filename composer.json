@@ -1,0 +1,19 @@
+{
+    "name": "paa/agripass",
+    "description": "AgriPass - event registration and QR check-in system for the Philippine Association of Agriculturists",
+    "type": "project",
+    "require": {
+        "php": ">=8.3",
+        "ext-pdo": "*",
+        "chillerlan/php-qrcode": "^5.0",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "AgriPass\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

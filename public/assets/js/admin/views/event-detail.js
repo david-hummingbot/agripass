@@ -339,7 +339,9 @@ async function renderRegistrations(el, event) {
                         ${rows.map((r) => {
                             const responses = JSON.parse(r.custom_responses || '{}');
                             return `<tr>
-                                <td><div class="fw-semibold">${esc(r.last_name)}, ${esc(r.first_name)}</div><div class="small text-muted">${esc(r.email)}</div></td>
+                                <td><div class="fw-semibold">${isAdmin()
+                                    ? `<a class="text-decoration-none" href="#/members/${r.member_id}">${esc(r.last_name)}, ${esc(r.first_name)}</a>`
+                                    : `${esc(r.last_name)}, ${esc(r.first_name)}`}</div><div class="small text-muted">${esc(r.email)}</div></td>
                                 <td class="small">${esc(r.chapter_region) || '<span class="text-muted">—</span>'}</td>
                                 <td class="small">${esc(r.prc_license_number) || '<span class="text-muted">—</span>'}</td>
                                 ${event.custom_fields.map((f) => {

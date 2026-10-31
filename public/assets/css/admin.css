@@ -221,3 +221,7 @@
     display: grid;
     place-items: center;
 }
+
+.clickable-row {
+    cursor: pointer;
+}

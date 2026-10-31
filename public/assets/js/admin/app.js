@@ -8,6 +8,9 @@ import { renderEventList } from './views/event-list.js';
 import { renderEventForm } from './views/event-form.js';
 import { renderEventDetail } from './views/event-detail.js';
 import { renderUsers } from './views/users.js';
+import { renderMemberDetail, renderMembers } from './views/members.js';
+
+const adminOnly = (render) => (...args) => (isAdmin() ? render(...args) : Promise.reject(new Error('Only administrators can view members.')));
 
 const routes = [
     [/^\/$/, () => renderDashboard()],
@@ -15,6 +18,8 @@ const routes = [
     [/^\/events\/new$/, () => renderEventForm()],
     [/^\/events\/(\d+)\/edit$/, (id) => renderEventForm(Number(id))],
     [/^\/events\/(\d+)(?:\/(\w+))?$/, (id, tab) => renderEventDetail(Number(id), tab)],
+    [/^\/members$/, adminOnly(() => renderMembers())],
+    [/^\/members\/(\d+)$/, adminOnly((id) => renderMemberDetail(Number(id)))],
     [/^\/users$/, () => (isSuperAdmin() ? renderUsers() : Promise.reject(new Error('Only Super Admins can manage users.')))],
 ];
 
@@ -33,6 +38,7 @@ function renderShell() {
                     <a class="nav-link" href="#/" data-nav="dashboard"><i class="bi bi-speedometer2"></i>Dashboard</a>
                     <a class="nav-link" href="#/events" data-nav="events"><i class="bi bi-calendar-event"></i>Events</a>
                     ${isAdmin() ? '<a class="nav-link" href="#/events/new" data-nav="new"><i class="bi bi-plus-circle"></i>New Event</a>' : ''}
+                    ${isAdmin() ? '<a class="nav-link" href="#/members" data-nav="members"><i class="bi bi-person-vcard"></i>Members</a>' : ''}
                     ${isSuperAdmin() ? '<a class="nav-link" href="#/users" data-nav="users"><i class="bi bi-people"></i>Users</a>' : ''}
                     <a class="nav-link" href="/scanner/" target="_blank" rel="noopener"><i class="bi bi-qr-code-scan"></i>QR Scanner<i class="bi bi-box-arrow-up-right ms-auto small opacity-50"></i></a>
                 </nav>
@@ -140,6 +146,7 @@ async function route() {
         const on = (nav === 'dashboard' && path === '/')
             || (nav === 'new' && path === '/events/new')
             || (nav === 'events' && path.startsWith('/events') && path !== '/events/new')
+            || (nav === 'members' && path.startsWith('/members'))
             || (nav === 'users' && path === '/users');
         a.classList.toggle('active', on);
     });

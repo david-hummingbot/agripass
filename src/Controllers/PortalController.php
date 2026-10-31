@@ -12,6 +12,7 @@ use AgriPass\Core\RateLimiter;
 use AgriPass\Core\Request;
 use AgriPass\Core\Response;
 use AgriPass\Services\CertificateService;
+use AgriPass\Services\MemberProfile;
 use AgriPass\Services\PortalMailer;
 use PDOException;
 
@@ -19,10 +20,6 @@ use PDOException;
 final class PortalController
 {
     private const LINKS_PER_MEMBER = 3;
-    private const PROFILE_LIMITS = [
-        'first_name' => 50, 'last_name' => 50, 'contact_number' => 20,
-        'chapter_region' => 100, 'prc_license_number' => 50, 'paa_id_number' => 50,
-    ];
 
     /** Always answers the same way, so it can't be used to find out who is a member. */
     public static function requestLink(Request $request): void
@@ -75,26 +72,7 @@ final class PortalController
     public static function updateProfile(Request $request): void
     {
         $member = MemberAuth::require();
-        $data = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'contact_number' => 'optional',
-            'chapter_region' => 'optional',
-            'prc_license_number' => 'optional',
-            'paa_id_number' => 'optional',
-        ]);
-        $errors = [];
-        foreach (self::PROFILE_LIMITS as $field => $max) {
-            if ($data[$field] !== null && mb_strlen((string) $data[$field]) > $max) {
-                $errors[$field] = "Use {$max} characters or fewer.";
-            }
-        }
-        if ($data['contact_number'] !== null && !preg_match('/^[0-9+()\-\s]{7,20}$/', (string) $data['contact_number'])) {
-            $errors['contact_number'] = 'Enter a valid phone number.';
-        }
-        if ($errors) {
-            throw new HttpException(422, 'Validation failed.', $errors);
-        }
+        $data = MemberProfile::validate($request);
 
         try {
             Database::run(
@@ -107,11 +85,11 @@ final class PortalController
             if ($e->getCode() !== '23000') {
                 throw $e;
             }
-            throw new HttpException(422, 'Validation failed.', ['paa_id_number' => 'This PAA ID is linked to another member. Contact PAA if this is yours.']);
+            throw MemberProfile::duplicateError($e);
         }
 
         AuditLog::record(null, 'portal.profile_update', 'member', (int) $member['member_id'], [
-            'changed' => array_keys(array_filter($data, static fn ($v, $k) => (string) $v !== (string) $member[$k], ARRAY_FILTER_USE_BOTH)),
+            'changed' => MemberProfile::changedFields($member, $data),
         ]);
         Response::json(['member' => MemberAuth::member()]);
     }

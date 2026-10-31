@@ -9,6 +9,7 @@ import { renderEventForm } from './views/event-form.js';
 import { renderEventDetail } from './views/event-detail.js';
 import { renderUsers } from './views/users.js';
 import { renderMemberDetail, renderMembers } from './views/members.js';
+import { renderHelp } from './views/help.js';
 
 const adminOnly = (render) => (...args) => (isAdmin() ? render(...args) : Promise.reject(new Error('Only administrators can view members.')));
 
@@ -21,6 +22,7 @@ const routes = [
     [/^\/members$/, adminOnly(() => renderMembers())],
     [/^\/members\/(\d+)$/, adminOnly((id) => renderMemberDetail(Number(id)))],
     [/^\/users$/, () => (isSuperAdmin() ? renderUsers() : Promise.reject(new Error('Only Super Admins can manage users.')))],
+    [/^\/help(?:\/([\w-]+))?$/, (slug) => renderHelp(slug)],
 ];
 
 const root = document.getElementById('root');
@@ -41,6 +43,7 @@ function renderShell() {
                     ${isAdmin() ? '<a class="nav-link" href="#/members" data-nav="members"><i class="bi bi-person-vcard"></i>Members</a>' : ''}
                     ${isSuperAdmin() ? '<a class="nav-link" href="#/users" data-nav="users"><i class="bi bi-people"></i>Users</a>' : ''}
                     <a class="nav-link" href="/scanner/" target="_blank" rel="noopener"><i class="bi bi-qr-code-scan"></i>QR Scanner<i class="bi bi-box-arrow-up-right ms-auto small opacity-50"></i></a>
+                    <a class="nav-link" href="#/help" data-nav="help"><i class="bi bi-question-circle"></i>Help</a>
                 </nav>
                 <div class="sidebar-footer">Philippine Association of Agriculturists, Inc.</div>
             </aside>
@@ -147,7 +150,8 @@ async function route() {
             || (nav === 'new' && path === '/events/new')
             || (nav === 'events' && path.startsWith('/events') && path !== '/events/new')
             || (nav === 'members' && path.startsWith('/members'))
-            || (nav === 'users' && path === '/users');
+            || (nav === 'users' && path === '/users')
+            || (nav === 'help' && path.startsWith('/help'));
         a.classList.toggle('active', on);
     });
     document.getElementById('sidebar')?.classList.remove('show');

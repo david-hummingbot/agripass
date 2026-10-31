@@ -1,0 +1,30 @@
+<p>AgriPass handles registration, QR passes, check-in, CPD certificates and reports for PAA events. Staff work in
+two places:</p>
+<ul>
+    <li><strong>Admin dashboard</strong> at <code>{{APP_URL}}/admin/</code>: events, registrations, payments, certificates, members and reports.</li>
+    <li><strong>QR Scanner</strong> at <code>{{APP_URL}}/scanner/</code>: checking attendees in at the venue, on a phone, tablet or laptop.</li>
+</ul>
+<p>Attendees never need an account. They register at <code>{{APP_URL}}/</code>, get their QR pass by email, and can sign
+in to <strong>My AgriPass</strong> at <code>{{APP_URL}}/portal/</code> to see their events and certificates.</p>
+
+<h3>Signing in</h3>
+<ol>
+    <li>Open the admin dashboard or the scanner and sign in with the email and password from your Super Admin.</li>
+    <li>The first time, you are asked to replace the temporary password with your own (at least 8 characters).</li>
+    <li>To change it later, open your name at the top right and choose <span class="ui">Change password</span>.</li>
+</ol>
+<p class="tip">After 10 wrong passwords in 15 minutes, sign-in is paused for a few minutes. If you forgot your password,
+ask a Super Admin to reset it.</p>
+
+<h3>Roles</h3>
+<table class="help-table">
+    <tr><th>Role</th><th>What they can do</th></tr>
+    <tr><td><strong>Gate Staff</strong></td><td>Use the QR scanner and view events and registrations (read only).</td></tr>
+    <tr><td><strong>Regional Officer</strong></td><td>Everything Gate Staff can do, plus create and run events, verify payments, issue certificates, manage members and download reports.</td></tr>
+    <tr><td><strong>Super Admin</strong></td><td>Everything, plus creating and managing staff accounts.</td></tr>
+</table>
+
+<h3>The active event</h3>
+<p>One event at a time is the <strong>active event</strong>. It is the event shown on the public registration page and
+the default for every scanner. The green pill at the top of the dashboard shows which event is active. Admins can switch
+it from that pill or with <span class="ui">Set as active event</span> on an event's page.</p>

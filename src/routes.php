@@ -7,6 +7,7 @@ use AgriPass\Controllers\CertificateController;
 use AgriPass\Controllers\CheckInController;
 use AgriPass\Controllers\CustomFieldController;
 use AgriPass\Controllers\EventController;
+use AgriPass\Controllers\HelpController;
 use AgriPass\Controllers\MemberController;
 use AgriPass\Controllers\PassController;
 use AgriPass\Controllers\PortalController;
@@ -86,6 +87,9 @@ return static function (Router $r): void {
     $r->get('/api/portal/me', [PortalController::class, 'me']);
     $r->put('/api/portal/profile', [PortalController::class, 'updateProfile']);
     $r->get('/api/portal/registrations', [PortalController::class, 'registrations']);
+
+    $r->get('/api/help', [HelpController::class, 'index']);
+    $r->get('/api/help/guide.pdf', [HelpController::class, 'pdf']);
 
     $r->post('/api/checkin', [CheckInController::class, 'scan']);
     $r->get('/api/events/{id}/roster', [CheckInController::class, 'roster']);

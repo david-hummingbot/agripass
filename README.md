@@ -90,6 +90,14 @@ submissions: Excel removes the leading zeros from license numbers like `0071234`
 `.xlsx` file stores them as text. CSV files are UTF-8 with a byte-order mark, and in both formats values that start
 with `=`, `+`, `-` or `@` cannot run as spreadsheet formulas. Every download is recorded in the audit log.
 
+## Staff guide
+
+The admin dashboard has a **Help** section with searchable how-to pages. Gate Staff see the topics for event day;
+admins see everything. The same content is available as printable PDF handouts from the Help page: the full **Staff
+guide**, and a short **Gate staff handout** for event-day volunteers. Edit the topics in `resources/help/*.html`; the list
+of topics and who sees each one is in `src/Services/HelpGuide.php`. Addresses in the guide come from `APP_URL`, so print
+handouts from the production installation.
+
 ## Scanning on phones and tablets
 
 Browsers only allow camera access on HTTPS (or `localhost`), so the app container also listens on port 8443 with a
@@ -150,6 +158,7 @@ Scanner endpoints use the `X-Event-ID` header for event context, falling back to
 | GET | `/api/certificates/verify?code=...` | public |
 | POST | `/api/portal/login-link` (emails a sign-in link) · `/api/portal/session` (redeems it) | public, rate limited |
 | GET | `/api/portal/me`, `/api/portal/registrations` · PUT `/api/portal/profile` · POST `/api/portal/logout` | member |
+| GET | `/api/help` (topics for the user's role) · `/api/help/guide.pdf` (`?audience=staff` for the gate handout) | staff |
 | GET | `/api/members` (`q`, `status`, `chapter`, `page`) · GET, PUT `/api/members/{id}` | admin |
 | GET | `/api/members/export.xlsx` · `/api/members/export.csv` | admin |
 | GET | `/api/events/{id}/report` (JSON) · `/api/events/{id}/report.pdf` | admin |

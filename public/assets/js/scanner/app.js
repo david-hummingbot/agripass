@@ -338,6 +338,7 @@ function topbarHtml({ scanning = false } = {}) {
                     <li><button class="dropdown-item" id="menu-roster"><i class="bi bi-cloud-download me-2"></i>Refresh roster</button></li>
                     <li><button class="dropdown-item" id="menu-kiosk"><i class="bi bi-tablet-landscape me-2"></i>Switch to kiosk mode</button></li>
                     <li><hr class="dropdown-divider"></li>` : ''}
+                    <li><a class="dropdown-item" href="/admin/#/help/scanning" target="_blank" rel="noopener"><i class="bi bi-question-circle me-2"></i>Help</a></li>
                     <li><button class="dropdown-item" id="menu-signout"><i class="bi bi-box-arrow-right me-2"></i>Sign out</button></li>
                 </ul>
             </div>

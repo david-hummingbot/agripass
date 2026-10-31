@@ -1,0 +1,36 @@
+<p>AgriPass issues a PDF Certificate of Attendance to each attendee who meets the event's CPD requirement. Each
+certificate carries the PAA signatory, the PRC accreditation number, the CPD units earned and a QR code for verification.</p>
+
+<h3>Who qualifies</h3>
+<p>An attendee is eligible when <strong>both</strong> are true:</p>
+<ul>
+    <li>their payment status is <strong>Paid</strong> or <strong>Waived</strong>, and</li>
+    <li>they checked in to at least the event's <strong>minimum attendance</strong> percentage of sessions (80% by default).</li>
+</ul>
+<p>The event's <strong>Certificates</strong> tab shows every registrant, whether they are eligible, and the reason if not
+(for example "Attended 2 of 4 sessions; 80% required" or "Payment is Pending").</p>
+
+<h3>Before issuing</h3>
+<ol>
+    <li>Check the settings on the Certificates tab: CPD units, attendance requirement, PRC accreditation number and signatory. Use <span class="ui">Edit</span> to change them.</li>
+    <li>Upload the signatory's signature under <strong>Signature &amp; layout</strong>. A PNG with a transparent background looks best, up to 2 MB. Without one, a blank line is printed for signing by hand.</li>
+    <li>Click <span class="ui">Preview sample certificate</span> to check the layout.</li>
+    <li>Mark the event as <strong>Completed</strong> so attendance is final. Certificates cannot be issued before this.</li>
+</ol>
+
+<h3>Issuing</h3>
+<ol>
+    <li>Click <span class="ui">Issue &amp; email</span>. AgriPass creates a certificate for every eligible attendee who does not have one yet, and emails it to them. Large events are processed in batches automatically; keep the page open until it finishes.</li>
+    <li>To issue to one person, for example after correcting their attendance or payment, use <span class="ui">Issue</span> on their row.</li>
+    <li>If an attendee did not receive the email, use the envelope button (<span class="ui">Email again</span>) on their row. Attendees can also download their certificate any time from My AgriPass or from their pass page.</li>
+</ol>
+<p class="tip">Certificates show the name and PRC license as they were when issued. If a member's details are wrong,
+correct them on the Members page <strong>before</strong> issuing.</p>
+
+<h3>Revoking</h3>
+<p>If a certificate was issued in error, use the red <span class="ui">Revoke</span> button on its row and enter a reason. The certificate
+stays on record for audit, but verification shows it as revoked and the attendee can no longer download it.</p>
+
+<h3>Verification</h3>
+<p>Anyone, including the PRC or an employer, can scan the certificate's QR code or enter its code at
+<code>{{APP_URL}}/verify/</code> to confirm it is genuine and still valid.</p>

@@ -1,0 +1,31 @@
+<p>Each attendee has one QR pass for the whole event. Scan it once per session: someone who attends four sessions is
+scanned four times.</p>
+
+<h3>Before doors open</h3>
+<ol>
+    <li>On the phone or tablet, open <code>{{APP_URL}}/scanner/</code> and sign in. Phones need the HTTPS address for the camera to work (see Troubleshooting).</li>
+    <li>Under <span class="ui">Scanner setup</span>, choose the <strong>Event</strong> and the <strong>Session</strong> you are checking people into.</li>
+    <li>Tap <span class="ui">Start scanning</span> and allow camera access when the browser asks.</li>
+    <li>Wait until the roster finishes downloading. The scanner can then keep working if the internet drops.</li>
+    <li>When the next session starts, open the menu (top right) and choose <span class="ui">Change event or session</span>. A scan always counts for the session shown at the top of the scanner.</li>
+</ol>
+
+<h3>Scanning</h3>
+<p>Point the camera at the attendee's QR code, either on their phone or printed. The screen shows the result with a
+sound and a colour:</p>
+<table class="help-table">
+    <tr><th>Result</th><th>What it means</th><th>What to do</th></tr>
+    <tr><td><span class="result valid">Checked in</span></td><td>Valid pass, paid or free, first scan for this session.</td><td>Let them in.</td></tr>
+    <tr><td><span class="result duplicate">Already checked in</span></td><td>This pass was already scanned for this session. The original time is shown.</td><td>Usually a second scan by mistake. If someone else is using the pass, call a supervisor.</td></tr>
+    <tr><td><span class="result unpaid">Payment pending</span></td><td>Registered, but the fee has not been verified yet.</td><td>Send them to the registration desk. Once an admin marks them paid, scan again.</td></tr>
+    <tr><td><span class="result wrong">Wrong event</span></td><td>The pass is for a different PAA event.</td><td>Check that the attendee is at the right event, and that the scanner is set to the right event.</td></tr>
+    <tr><td><span class="result invalid">Invalid pass</span></td><td>Not an AgriPass code, damaged, or altered.</td><td>Find them by name instead (below), or send them to the registration desk.</td></tr>
+</table>
+
+<h3>If the code will not scan</h3>
+<ul>
+    <li>In low light, tap the <span class="ui">Flashlight</span> button on the camera view (on phones that have one).</li>
+    <li>Ask the attendee to turn up their screen brightness.</li>
+    <li>Use <span class="ui">Can't scan? Find the attendee</span>: type part of their name, PRC license or chapter, then tap their name to check them in.</li>
+    <li>A USB or Bluetooth barcode scanner also works: it types the pass code into the pass code box.</li>
+</ul>

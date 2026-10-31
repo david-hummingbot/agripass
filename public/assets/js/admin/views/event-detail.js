@@ -17,6 +17,8 @@ const TABS = [
     ['reports', 'Reports', 'bar-chart', 'admin'],
 ];
 
+const HELP_TOPICS = { registrations: 'registrations', certificates: 'certificates', reports: 'reports' };
+
 const NEXT_STATUS = {
     Draft: { status: 'Active', label: 'Publish event', icon: 'send', help: 'Opens registration for this event.' },
     Active: { status: 'Completed', label: 'Mark as completed', icon: 'flag', help: 'Closes registration and scanning. If this is the active event, it will no longer be active.' },
@@ -36,10 +38,13 @@ export async function renderEventDetail(eventId, tab = 'overview') {
     const next = NEXT_STATUS[event.status];
 
     view.innerHTML = `
-        <nav aria-label="breadcrumb"><ol class="breadcrumb small mb-2">
-            <li class="breadcrumb-item"><a href="#/events">Events</a></li>
-            <li class="breadcrumb-item active">${esc(event.title)}</li>
-        </ol></nav>
+        <div class="d-flex align-items-start gap-3 mb-2">
+            <nav aria-label="breadcrumb" class="me-auto"><ol class="breadcrumb small mb-0">
+                <li class="breadcrumb-item"><a href="#/events">Events</a></li>
+                <li class="breadcrumb-item active">${esc(event.title)}</li>
+            </ol></nav>
+            <a class="small text-muted text-nowrap" href="#/help/${HELP_TOPICS[tab] || 'events'}"><i class="bi bi-question-circle me-1"></i>Help with this page</a>
+        </div>
         <div class="d-flex flex-wrap gap-3 align-items-start justify-content-between mb-3">
             <div>
                 <h1 class="h3 page-title d-flex flex-wrap align-items-center gap-2">${esc(event.title)} ${statusBadge(event.status)}

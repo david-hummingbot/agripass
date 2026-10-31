@@ -1,0 +1,50 @@
+<h3>Event lifecycle</h3>
+<p>Every event moves through four stages, always in this order:</p>
+<table class="help-table">
+    <tr><th>Stage</th><th>What happens</th><th>Button to move on</th></tr>
+    <tr><td><strong>Draft</strong></td><td>Being prepared. Not visible to the public.</td><td><span class="ui">Publish event</span></td></tr>
+    <tr><td><strong>Active</strong></td><td>Registration is open (if it is the active event) and scanners can check people in.</td><td><span class="ui">Mark as completed</span></td></tr>
+    <tr><td><strong>Completed</strong></td><td>Registration and scanning are closed. Attendance is final, so certificates can be issued.</td><td><span class="ui">Archive event</span></td></tr>
+    <tr><td><strong>Archived</strong></td><td>Permanently locked for PRC/CPD audits. Everything can still be viewed and exported.</td><td>None</td></tr>
+</table>
+<p class="warn">Stages cannot be reversed. Archive an event only when certificates and payments are final.</p>
+
+<h3>1. Create the event</h3>
+<ol>
+    <li>Choose <span class="ui">New Event</span> in the sidebar.</li>
+    <li>Fill in the title, event type, venue, dates and description.</li>
+    <li>Set the <strong>Fee</strong>. Use 0 for free events. Free registrations are marked Waived automatically, so their passes work straight away.</li>
+    <li>Under CPD, enter the <strong>CPD units</strong>, the <strong>Minimum attendance for certificate</strong> (percentage of sessions, 80% by default) and the <strong>PRC accreditation no.</strong></li>
+    <li>Enter the certificate signatory's <strong>Name</strong> and <strong>Position</strong>, as they should appear on certificates.</li>
+    <li>Save. The event starts as a Draft.</li>
+</ol>
+
+<h3>2. Add sessions</h3>
+<p>Sessions are the parts of the event that are scanned separately, for example "Day 1 Morning Plenary" and "Day 1
+Afternoon Technical Track". On the event's <strong>Sessions</strong> tab, use <span class="ui">Add session</span> for each
+one, with its date and start and end time.</p>
+<p class="tip">CPD eligibility counts sessions. With four sessions and an 80% requirement, attendees must attend all four,
+because three of four is only 75%. Plan the number of sessions and the requirement together.</p>
+<p class="warn">Deleting a session also deletes its attendance records.</p>
+
+<h3>3. Add registration questions (optional)</h3>
+<p>On the <strong>Registration form</strong> tab, <span class="ui">Add field</span> adds a question to the form, such as
+T-shirt size or dietary needs. Field types are Text, Number, Dropdown (with your list of options) and Checkbox, and each
+can be required or optional. Answers appear in the registration list, the exports and the Reports tab.</p>
+
+<h3>4. Open registration</h3>
+<ol>
+    <li>Click <span class="ui">Publish event</span> to make it Active.</li>
+    <li>Click <span class="ui">Set as active event</span> so it appears on the public registration page and becomes the default for scanners.</li>
+    <li>Share the registration link: <code>{{APP_URL}}/</code></li>
+</ol>
+<p>Only one event can be the active event. Making a new event active takes the previous one off the registration
+page, but scanners can still choose any Active event.</p>
+
+<h3>5. After the event</h3>
+<ol>
+    <li>Make sure every scanner has synced (no scans waiting on any device).</li>
+    <li>Click <span class="ui">Mark as completed</span>.</li>
+    <li>Issue certificates (see CPD certificates) and download reports.</li>
+    <li>When everything is final, click <span class="ui">Archive event</span>.</li>
+</ol>

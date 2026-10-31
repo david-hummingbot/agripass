@@ -2,6 +2,7 @@ import { api } from '../../lib/api.js';
 import { activateEvent } from '../app.js';
 import { isAdmin, loadEvents } from '../state.js';
 import { renderCertificates } from './certificates.js';
+import { renderReports } from './reports.js';
 import {
     confirmDialog, emptyState, esc, formData, formatDate, formatDateRange, formatDateTime,
     formatPeso, formatTime, openModal, paymentBadge, statusBadge, toast, toastError,
@@ -13,6 +14,7 @@ const TABS = [
     ['fields', 'Registration form', 'ui-checks'],
     ['registrations', 'Registrations', 'people'],
     ['certificates', 'Certificates', 'award', 'admin'],
+    ['reports', 'Reports', 'bar-chart', 'admin'],
 ];
 
 const NEXT_STATUS = {
@@ -86,6 +88,7 @@ export async function renderEventDetail(eventId, tab = 'overview') {
     if (tab === 'fields') renderFields(content, event, editable, reload);
     if (tab === 'registrations') await renderRegistrations(content, event);
     if (tab === 'certificates') await renderCertificates(content, event, reload);
+    if (tab === 'reports') await renderReports(content, event);
     view.querySelector('.nav-tabs .active')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
 }
 

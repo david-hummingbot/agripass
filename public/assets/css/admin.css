@@ -225,3 +225,11 @@
 .clickable-row {
     cursor: pointer;
 }
+
+.progress {
+    --bs-progress-bar-bg: var(--paa-green-mid);
+}
+
+.progress-bar.bg-accent {
+    background-color: var(--paa-yellow-dark) !important;
+}

@@ -122,8 +122,8 @@ function seedCompletedSeminar(int $adminId): void
         Database::run('UPDATE registrations SET qr_token = ? WHERE registration_id = ?', [QrToken::make($eventId, $registrationId), $registrationId]);
         foreach (array_slice($sessionIds, 0, $attended) as [$sessionId, $startsAt]) {
             Database::run(
-                'INSERT INTO attendances (registration_id, session_id, scanned_by, check_in_time) VALUES (?, ?, ?, ? + INTERVAL 12 MINUTE)',
-                [$registrationId, $sessionId, $adminId, $startsAt],
+                'INSERT INTO attendances (registration_id, session_id, scanned_by, check_in_time) VALUES (?, ?, ?, ? + INTERVAL ? MINUTE)',
+                [$registrationId, $sessionId, $adminId, $startsAt, random_int(-35, 75)],
             );
         }
     }

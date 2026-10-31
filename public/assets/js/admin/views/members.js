@@ -15,9 +15,15 @@ let searchTimer;
 export async function renderMembers() {
     const view = document.getElementById('view');
     view.innerHTML = `
-        <div class="mb-4">
-            <h1 class="h3 page-title">Members</h1>
-            <p class="text-muted small mb-0">Everyone who has registered for a PAA event. Members can also update their own details in My AgriPass.</p>
+        <div class="d-flex flex-wrap gap-3 align-items-start justify-content-between mb-4">
+            <div>
+                <h1 class="h3 page-title">Members</h1>
+                <p class="text-muted small mb-0">Everyone who has registered for a PAA event. Members can also update their own details in My AgriPass.</p>
+            </div>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Export all members">
+                <a class="btn btn-outline-primary" href="/api/members/export.xlsx" download><i class="bi bi-file-earmark-excel me-1"></i>Export Excel</a>
+                <a class="btn btn-outline-primary" href="/api/members/export.csv" download>CSV</a>
+            </div>
         </div>
         <div class="card">
             <div class="card-header bg-white py-3 d-flex flex-wrap gap-2 align-items-center">

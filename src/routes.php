@@ -11,6 +11,7 @@ use AgriPass\Controllers\MemberController;
 use AgriPass\Controllers\PassController;
 use AgriPass\Controllers\PortalController;
 use AgriPass\Controllers\RegistrationController;
+use AgriPass\Controllers\ReportController;
 use AgriPass\Controllers\SessionController;
 use AgriPass\Controllers\UserController;
 use AgriPass\Core\Database;
@@ -54,11 +55,20 @@ return static function (Router $r): void {
     $r->put('/api/registrations/{id}/payment', [RegistrationController::class, 'updatePayment']);
     $r->post('/api/members/lookup', [MemberController::class, 'lookup']);
     $r->get('/api/members', [MemberController::class, 'index']);
+    $r->get('/api/members/export.csv', [ReportController::class, 'membersCsv']);
+    $r->get('/api/members/export.xlsx', [ReportController::class, 'membersXlsx']);
     $r->get('/api/members/{id}', [MemberController::class, 'show']);
     $r->put('/api/members/{id}', [MemberController::class, 'update']);
 
     $r->get('/api/passes', [PassController::class, 'show']);
     $r->get('/api/passes/qr', [PassController::class, 'qr']);
+
+    $r->get('/api/events/{id}/report', [ReportController::class, 'show']);
+    $r->get('/api/events/{id}/report.pdf', [ReportController::class, 'pdf']);
+    $r->get('/api/events/{id}/exports/attendance.csv', [ReportController::class, 'attendanceCsv']);
+    $r->get('/api/events/{id}/exports/attendance.xlsx', [ReportController::class, 'attendanceXlsx']);
+    $r->get('/api/events/{id}/exports/checkins.csv', [ReportController::class, 'checkinsCsv']);
+    $r->get('/api/events/{id}/exports/checkins.xlsx', [ReportController::class, 'checkinsXlsx']);
 
     $r->get('/api/events/{id}/certificates', [CertificateController::class, 'index']);
     $r->post('/api/events/{id}/certificates/issue', [CertificateController::class, 'issue']);

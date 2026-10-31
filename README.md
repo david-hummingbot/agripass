@@ -66,6 +66,30 @@ attendance, QR pass links and CPD certificate downloads (or why no certificate w
 units earned and lets members update their name, contact number, PRC license, PAA ID and chapter. Email changes go
 through PAA staff. While signed in, the public registration form fills in their details automatically.
 
+## Member directory
+
+Admins can browse everyone who has registered under **Members**: search by name, email, PRC license or PAA ID,
+filter by membership status or chapter, and open a member to see their event history, attendance and certificates.
+Admins can correct a member's details there, including email and PAA membership status. Changing the email cancels
+any unused portal sign-in links. Edits are recorded in the audit log, and certificates that were already issued keep
+the name and license printed on them.
+
+## Reports and exports
+
+Each event's **Reports** tab (admins only) shows registration, turnout, payment and CPD figures, attendance per
+session, arrivals per hour, a breakdown by chapter, PRC license and PAA membership, and tallies of the custom
+registration questions. From there you can download:
+
+- **Summary PDF**: the same figures as a printable A4 executive summary.
+- **Attendance & CPD**: one row per registrant with check-in times per session, CPD eligibility (and why not),
+  certificate number and units credited, plus their registration answers. This is the file for PRC CPD submissions.
+- **Check-in log**: every scan with who recorded it and whether it was synced from offline.
+
+The **Members** page also exports the whole directory. Every export comes as Excel or CSV. Use Excel for PRC
+submissions: Excel removes the leading zeros from license numbers like `0071234` when it opens a CSV, while the
+`.xlsx` file stores them as text. CSV files are UTF-8 with a byte-order mark, and in both formats values that start
+with `=`, `+`, `-` or `@` cannot run as spreadsheet formulas. Every download is recorded in the audit log.
+
 ## Scanning on phones and tablets
 
 Browsers only allow camera access on HTTPS (or `localhost`), so the app container also listens on port 8443 with a
@@ -126,3 +150,7 @@ Scanner endpoints use the `X-Event-ID` header for event context, falling back to
 | GET | `/api/certificates/verify?code=...` | public |
 | POST | `/api/portal/login-link` (emails a sign-in link) · `/api/portal/session` (redeems it) | public, rate limited |
 | GET | `/api/portal/me`, `/api/portal/registrations` · PUT `/api/portal/profile` · POST `/api/portal/logout` | member |
+| GET | `/api/members` (`q`, `status`, `chapter`, `page`) · GET, PUT `/api/members/{id}` | admin |
+| GET | `/api/members/export.xlsx` · `/api/members/export.csv` | admin |
+| GET | `/api/events/{id}/report` (JSON) · `/api/events/{id}/report.pdf` | admin |
+| GET | `/api/events/{id}/exports/attendance.xlsx` / `.csv` · `/api/events/{id}/exports/checkins.xlsx` / `.csv` | admin |

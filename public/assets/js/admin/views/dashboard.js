@@ -77,7 +77,10 @@ function activeEventPanel(event) {
                     <div class="text-muted"><i class="bi bi-geo-alt me-1"></i>${esc(event.venue)}
                         <span class="mx-2">&middot;</span><i class="bi bi-calendar3 me-1"></i>${formatDateRange(event.start_date, event.end_date)}</div>
                 </div>
-                <a class="btn btn-outline-primary" href="#/events/${event.event_id}">Manage event</a>
+                <div class="d-flex gap-2">
+                    ${isAdmin() ? `<a class="btn btn-light border" href="#/events/${event.event_id}/reports"><i class="bi bi-bar-chart me-1"></i>Reports</a>` : ''}
+                    <a class="btn btn-outline-primary" href="#/events/${event.event_id}">Manage event</a>
+                </div>
             </div>
         </div>
         <div class="row g-3 mb-4">
